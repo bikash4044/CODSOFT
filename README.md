@@ -1,3 +1,3 @@
 # CODSOFT
 
-This reporsitory is dedicated to the Python programming internship.
+Python Programming: This directory is dedicated to the Python programming internship.
