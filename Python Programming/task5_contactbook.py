@@ -7,28 +7,52 @@ Update Contact: Enable users to update contact details.
 Delete Contact: Provide an option to delete a contact.
 User Interface: Design a user-friendly interface for easy interaction.
 '''
+import os
 
-def add():
-    pass
+def add(pos=-1):
+    if(pos==-1):
+        pos = len(l)
+    tmp=[]
+    tmp.append(input("Enter Name:"))
+    tmp.append(input("Enter Phone number:"))
+    tmp.append(input("Enter email:"))
+    tmp.append(input("Enter address:"))
+    l.insert(pos,tmp)
 
 def search():
-    pass
+    src = input("Enter phone number or name to search for the contact:")
+    for i in l:
+        if(i[0]==src or i[1]==src):
+            print(f"Name: {i[0]}")
+            print(f"Phone Number: {i[1]}")
+            print(f"Email: {i[2]}")
+            print(f"Address: {i[3]}")
+            return
+    print("No match found.")
 
 def view():
-    for i in range(len(l)):
-        print(f"{i+1}. {l[i][0]} : {l[i][1]}")
+    if(len(l)==0):
+        print("Empty List.")
+    else:
+        print("List of contacts:")
+        for i in range(len(l)):
+            print(f"{i+1}. {l[i][0]} : {l[i][1]}")
 
 def update():
-    pass
-
-def delete():
     view()
-    i = int(input("Enter the serial number of contact to be deleted:"))
+    if(len(l)>0):
+        ind = int(input("Enter the serial number of the contact to be updated:"))
+        delete(ind)
+        add(ind)
+
+
+def delete(i):
+    view()
     if(i>len(l)):
         print("Invalid Input ! ! !")
     else:
         del l[i-1]
-    print("Deleted successfully.")
+        print("Deleted successfully.")
 
 
 
@@ -36,17 +60,18 @@ def delete():
 
 if __name__ == "__main__":
     try:
-        open("todo.txt",'x')
+        open("contact.txt",'x')
     except Exception as e:
         pass
     l=[]
 
-    #use file handling to store the details
-    with open("todo.txt",'r') as f:
-        tmp=[]
-        for i in range(4):
-            tmp.append(f.readlines())
-        l.insert(len(l),tmp)
+    if(os.path.getsize("contact.txt")!=0):
+        #use file handling to store the details
+        with open("contact.txt",'r') as f:
+            tmp=[]
+            for i in range(4):
+                tmp.append(f.readlines())
+            l.insert(len(l),tmp)
 
     c='y'
     while(c[0]=='y' or c[0]=='Y'):
@@ -62,17 +87,20 @@ if __name__ == "__main__":
             view()
         elif(inp==3):
             search()
-        elif(4):
+        elif(inp==4):
             update()
-        elif(5):
+        elif(inp==5):
             if(len(l)==0):
                 print("Empty list.")
             else:
-                delete()
+                view()
+                i = int(input("Enter the serial number of contact to be deleted:"))
+                delete(i)
         else:
             print("Invalid Input. Aborting ! ! !")
             exit()
         c = input("Press Y or y to continue:")
-    with open("todo.txt",'w') as f:
+    with open("contact.txt",'w') as f:
         for i in l:
-            f.write(i)
+            for j in i:
+                f.write(j)
